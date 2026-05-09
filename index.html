@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Web To-Do List</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" , href="styles.css">
+</head>
+
+<body>
+    <h1 id="Header">To-Do List Maker</h1>
+    <div class="MainContent">
+        <div class="TopBar"> <!-- topbar for configuring items -->
+            <span>
+                Navigation Menu
+            </span>
+            <button>
+                Add Category
+            </button>
+        </div>
+
+        <div class="CategoryList"> <!-- lower bar for actual items-->
+            <div class="CategoryContainer">
+                <div class="CategoryTop">
+                    <span class="TopItem"> Category Title</span>
+                    <span class="TopItem">
+                        <button>Duplicate</button>
+                        <button>Remove</button>
+                    </span>
+                    <span class="TopItme">
+                        <button>Move</button>
+                    </span>
+
+                </div>
+
+                <div class="TaskItem">
+                    <span>
+                        <input type="checkbox">
+                    </span>
+                    <span>
+                        Another piece of text
+                    </span>
+                </div>
+
+                <div class="TaskItem">
+                    <span>
+                        <input type="checkbox">
+                    </span>
+                    <span>
+                        Another piece of text
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+
+</body>
+
+</html>
