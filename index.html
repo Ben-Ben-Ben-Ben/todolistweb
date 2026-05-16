@@ -8,27 +8,27 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" , href="styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <h1 id="Header">To-Do List Maker</h1>
-    <div class="MainContent">
+    <div id = "MainRoot" class="MainContent NoContent">
         <div class="TopBar"> <!-- topbar for configuring items -->
             <span>
-                Navigation Menu
+                Category Menu
             </span>
             <span>
-                <button id="FullClear">
+                <button id="FullClear" class="butheader">
                     Clear Categories
                 </button>
-                <button id="AddCategory">
+                <button id="AddCategory" class="butheader">
                     Add Category
                 </button>
             </span>
         </div>
 
-        <div class="CategoryList" id="CategoryRoot"> <!-- lower bar for actual items-->
+        <div class="CategoryList disnone" id="CategoryRoot"> <!-- lower bar for actual items-->
 
         </div>
     </div>

@@ -1,3 +1,4 @@
+const main = document.getElementById("MainRoot")
 const rootCat = document.getElementById("CategoryRoot")
 
 let currentWindowCount = 0
@@ -6,9 +7,7 @@ let createdObjects = []
 let curDrag = null
 let startPosX = null
 
-rootCat.addEventListener("dragover", function (e) {
-    e.preventDefault()
-})
+
 
 /* logic for adding a new category window */
 const butAddCategory = document.getElementById("AddCategory")
@@ -17,16 +16,23 @@ butAddCategory.addEventListener("click", function (ev) {
     newCat.classList.add("CategoryContainer")
     generateCategoryHeader(newCat)
 
-    /* draggable listener stuff */
+    /* draggable interactions*/
     newCat.draggable = true
-    newCat.addEventListener("dragover", function (e) { /* prevent dragging on button elements */
+
+    /* check if valid space to move the window */
+    newCat.addEventListener("dragstart", function (e) {
         if (!document.elementFromPoint(e.x, e.y).classList.contains("DraggableComponent")) {
             e.preventDefault()
-            if (startPosX == null){
-                startPosX = e.x
-            }
         }
     })
+
+    newCat.addEventListener("dragover", function (e) {
+        if (startPosX == null) {
+            startPosX = e.x
+        }
+    })
+
+    /* recalculate category position */
     newCat.addEventListener("dragend", function (e) {
         const rightMove = Math.sign((e.x - startPosX)) < 0
         if (document.elementFromPoint(e.x, e.y).closest("#CategoryRoot")) {
@@ -34,26 +40,19 @@ butAddCategory.addEventListener("click", function (ev) {
             let chosenElement = newCat
             createdObjects.forEach((node, _) => {
                 let rect = node.getBoundingClientRect()
-                
-
 
                 if (rightMove) { /* ended to the right */
-                    console.log("right endpoint")
                     if (e.x <= rect.right && rect.right <= maxormin) { /* lost an hour of my life... javascript doesnt support chained comparisons*/
                         maxormin = rect.right
                         chosenElement = node
-                        console.log("set endpoint right")
                     }
                 } else { /* ended to the left */
                     if (maxormin == Infinity) {
                         maxormin = -Infinity
                     }
-                    console.log("left endpoint")
-                    console.log("maxormin", maxormin, "rectleft", rect.left ,"e.x:", e.x)
                     if (maxormin <= rect.left && rect.left <= e.x) { /* lost an hour of my life... javascript doesnt support chained comparisons*/
                         maxormin = rect.left
                         chosenElement = node
-                        console.log("set endpoint left")
                     }
                 }
             })
@@ -63,7 +62,7 @@ butAddCategory.addEventListener("click", function (ev) {
             } else {
                 chosenElement.parentElement.insertBefore(newCat, chosenElement.nextSibling)
             }
-            
+
 
 
         } else {
@@ -75,11 +74,22 @@ butAddCategory.addEventListener("click", function (ev) {
 
     createdObjects.push(newCat)
     rootCat.appendChild(newCat)
+
+    /* change styling when objects are added */
+    if (main.classList.contains("NoContent")) {
+        main.classList.remove("NoContent")
+        rootCat.classList.remove("disnone")
+    }
 })
 
 /* clear all categories */
 const butClearAll = document.getElementById("FullClear")
-butClearAll.addEventListener("click", e => { rootCat.replaceChildren(); createdObjects = [] })
+butClearAll.addEventListener("click", e => {
+    rootCat.replaceChildren()
+    createdObjects = []
+    rootCat.classList.add("disnone")
+    main.classList.add("NoContent")
+})
 
 /* generates the header for each category section */
 function generateCategoryHeader(divNode) {
@@ -92,6 +102,7 @@ function generateCategoryHeader(divNode) {
     const cTitle = document.createElement("input")
     cTitle.value = "Untitled Category"
     cTitle.classList.add("TopItem")
+    cTitle.classList.add("labelInner")
     header.appendChild(cTitle)
 
     /* buttons */
@@ -101,14 +112,16 @@ function generateCategoryHeader(divNode) {
     const butRemove = document.createElement("button")
     butRemove.innerText = "Remove"
     butRemove.addEventListener("click", OnRemove)
+    butRemove.classList.add("CatButton")
 
     const butAdd = document.createElement("button")
     butAdd.innerText = "Add Item"
     butAdd.addEventListener("click", OnAddCheckboxItem)
+    butAdd.classList.add("CatButton")
 
     const space = document.createElement("span")
     space.classList.add("DraggableComponent")
-    space.innerText = "MOVE"
+    space.innerText = "<->"
 
     /* reparenting everything */
     cButtons.appendChild(butRemove)
@@ -130,14 +143,21 @@ function generateTask(divNode) {
     const butDelete = document.createElement("button")
     butDelete.innerText = "Delete"
     butDelete.addEventListener("click", function () {
-        console.log(this.parentElement.parentElement)
         this.parentElement.remove()
     })
 
     divNode.appendChild(checkbox)
     divNode.appendChild(taskTitle)
     divNode.appendChild(butDelete)
+
+    taskTitle.focus()
+    console.log("supposedly focused")
 }
+
+/* stops mouse from displaying the 'invalid drop' cursor */
+rootCat.addEventListener("dragover", function (e) {
+    e.preventDefault()
+})
 
 /*
 * Event Handlers
@@ -156,16 +176,9 @@ function OnRemove(e) {
     this.parentElement.parentElement.parentElement.remove()
     let index = createdObjects.findIndex((val, _) => val == this.parentElement.parentElement.parentElement)
     createdObjects.splice(index, 1)
-}
 
-function OnMoveDown(e) {
-
-}
-
-function OnMoveHeld(e) {
-
-}
-
-function OnMoveRelease(e) {
-
+    if (createdObjects.length == 0) {
+        main.classList.add("NoContent")
+        rootCat.classList.add("disnone")
+    }
 }

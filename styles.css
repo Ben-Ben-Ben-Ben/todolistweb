@@ -1,10 +1,9 @@
 :root{
-    --col-highlight1: #F8D3E6;
-    --col-highlight2: #F2A6CC;
-    --col-primary: #EB7AB3;
-    --col-secondary: #DE2180;
-    --col-shadow1: #85144D;
-    --col-shadow2: #590D33;
+    --col-page-bg: #F2F0ED;
+    --col-highlight: #BFACB5;
+    --col-faded-highlight: #d9d8d7;
+    --col-primary: #444554;
+    --col-secondary: #172121;
     --col-darkest: #1F0512;
 }
 
@@ -13,52 +12,156 @@ html{
 }
 
 body{
-    background-color: var(--col-primary);
+    background-color: var(--col-page-bg);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100%;
-    color: var(--col-highlight1);
+    color: var(--col-highlight);
     font-family: "Nunito", sans-serif;
 }
 
 .MainContent{
-    background-color: var(--col-secondary);
+    background-color: var(--col-highlight);
     width: 80%;
-    height: 50%;
+    padding-bottom: 1%;
     border-radius: 10px;
-    padding: .25rem;
+}
+
+.NoContent{
+    background-color: var(--col-faded-highlight);
 }
 
 .TopBar{
-    background-color: var(--col-shadow1);
+    background-color: var(--col-darkest);
     border-radius: 10px;
-    padding: .25rem;
+    padding: .5rem;
     display: flex;
     justify-content: space-between;
+    font-size: 1.5rem;
 }
 
+/* i was not built for css grids... */
 .CategoryList{
-    background-color: var(--col-shadow1);
-    display: flex;
-    align-items: first baseline;
+    background-color: var(--col-darkest);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    align-items: stretch;
+    justify-items: stretch;
     margin-top: 1%;
+    margin-left: 1%;
+    margin-right: 1%;
+    padding-top: 0.5%;
+    padding-bottom: 1%;
+    border-radius: 10px;
 }
 
 .CategoryTop{
     display: flex;
+    flex: 0 1 auto;
     justify-content: space-between;
+    overflow: hidden;
+    flex-wrap: nowrap;
+    min-width: 0;
+    height: auto;
+    width: 100%;
 }
 
 .CategoryContainer{
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-width: 0;
+
     background-color: var(--col-primary);
-    padding: .25rem;
-    margin: .25rem;
+    padding: 1%;
+    margin: 1%;
+    border-radius: 10px;
 }
 
 .TopItem{
     padding: .1rem;
     margin-left: .1rem;
     margin-right: .1rem;
+    display: flex;
+    overflow: hidden;
+    flex-wrap: nowrap;
+}
+
+.TaskItem{
+    padding-top: 1%;
+}
+
+button{
+    background-color: var(--col-faded-highlight);
+    color: var(--col-secondary);
+    border: 0px solid var(--col-darkest);
+    border-radius: 20px;
+    margin-left: 1.5px;
+    margin-right: 1.5px;
+    font-family: "Nunito";
+
+    scale: 1;
+    transition: scale 0.25s ease-in-out;
+}
+
+button:hover{
+    scale: 1.1;
+    transition: scale 0.25s ease-in-out;
+}
+
+.butheader{
+    font-size: 1.1rem;
+}
+
+.labelInner{
+    font-size: 1.1rem;
+}
+
+input{
+    color: var(--col-faded-highlight);
+    background-color: rgba(0,0,0,0);
+    border: 0px solid white;
+
+    overflow: hidden;
+    flex: 1 1 auto;
+
+    min-width: 0;
+    text-overflow: clip;
+    flex-shrink: 1;
+
+    max-height: 2rem;
+}
+
+input:focus{
+    color: var(--col-darkest);
+    background-color: var(--col-faded-highlight);
+    transition: background-color 0.25s ease-in-out;
+    transition: color 0.25s ease-in-out;
+}
+
+.DraggableComponent{
+    margin: 1%;
+    white-space: nowrap;
+}
+
+.DraggableComponent:hover{
+    cursor:grab
+}
+
+.CatButton{
+    max-height: 3rem;
+}
+
+.disnone{
+    display: none;
+}
+
+.smallRadius{
+    border-radius: 5px;
+}
+
+.nominwidth{
+    min-width: 0%;
 }
