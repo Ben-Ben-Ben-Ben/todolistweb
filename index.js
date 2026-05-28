@@ -6,7 +6,7 @@ let createdObjects = []
 
 let curDrag = null
 let startPosX = null
-
+let startPosY = null
 
 
 /* logic for adding a new category window */
@@ -27,34 +27,57 @@ butAddCategory.addEventListener("click", function (ev) {
     })
 
     newCat.addEventListener("dragover", function (e) {
-        if (startPosX == null) {
+        if (startPosX == null || startPosY == null) {
             startPosX = e.x
+            startPosY = e.y
         }
     })
 
     /* recalculate category position */
     newCat.addEventListener("dragend", function (e) {
         const rightMove = Math.sign((e.x - startPosX)) < 0
+        const upMove = Math.sign(e.y - startPosY) < 0
         if (document.elementFromPoint(e.x, e.y).closest("#CategoryRoot")) {
-            let maxormin = Infinity
+            let maxorminX = Infinity
+            maxorminY = Infinity
             let chosenElement = newCat
+
+            /* lost an hour of my life here... javascript doesnt support chained comparisons*/
             createdObjects.forEach((node, _) => {
                 let rect = node.getBoundingClientRect()
 
+
                 if (rightMove) { /* ended to the right */
-                    if (e.x <= rect.right && rect.right <= maxormin) { /* lost an hour of my life... javascript doesnt support chained comparisons*/
-                        maxormin = rect.right
+                    if (e.x <= rect.right && rect.right <= maxorminX) {
+                        maxorminX = rect.right
                         chosenElement = node
                     }
                 } else { /* ended to the left */
-                    if (maxormin == Infinity) {
-                        maxormin = -Infinity
+                    if (maxorminX == Infinity) {
+                        maxorminX = -Infinity
                     }
-                    if (maxormin <= rect.left && rect.left <= e.x) { /* lost an hour of my life... javascript doesnt support chained comparisons*/
-                        maxormin = rect.left
+                    if (maxorminX <= rect.left && rect.left <= e.x) {
+                        maxorminX = rect.left
                         chosenElement = node
                     }
                 }
+
+                if (upMove) {
+                    if (e.Y <= rect.top && rect.top <= maxorminX) {
+                        maxorminY = rect.top
+                        chosenElement = node
+                    }
+                } else {
+                    if (maxorminY == Infinity) {
+                        maxorminY = -Infinity
+                    }
+                    if (maxorminY <= rect.bottom && rect.bottom <= e.y) {
+                        console.log(maxorminY, rect.bottom, e.y)
+                        maxorminY = rect.bottom
+                        chosenElement = node
+                    }
+                }
+
             })
 
             if (rightMove) {
@@ -66,7 +89,6 @@ butAddCategory.addEventListener("click", function (ev) {
 
 
         } else {
-            console.log("dropped elsewhere")
         }
 
         startPosX = null
@@ -151,7 +173,6 @@ function generateTask(divNode) {
     divNode.appendChild(butDelete)
 
     taskTitle.focus()
-    console.log("supposedly focused")
 }
 
 /* stops mouse from displaying the 'invalid drop' cursor */
