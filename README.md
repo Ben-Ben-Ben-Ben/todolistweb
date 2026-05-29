@@ -16,6 +16,5 @@ A webpage to create simple user-created checklist tasks! This project was starte
 
 ## Lessons Learned
 - Have a clear vision for a project **before** starting
-  Scope creep was a large issue with this project. I wanted to learn too many things in one activity resulting in burnout. Honing in on a couple of key concepts will ensure I don't overwhelm myself or add unneeded complexity.
-- HTML is event based
-- CSS is a powerful tool for ensuring the webpage feels 'responsive'
+- HTML and JavaScript are *event* driven
+- CSS is a powerful tool for ensuring webpages feel 'responsive'
